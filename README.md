@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/falk-werner/webfuse-example.svg?branch=master)](https://travis-ci.org/falk-werner/webfuse-example)
+
 # webfuse-example
 Example of webfuse.
 
