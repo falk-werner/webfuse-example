@@ -4,5 +4,5 @@ services:
     - docker
 
 script:
-    - docker build --rm --buildarg "USERID=`id -u`" -tag webfuse .
+    - docker build --rm --build-arg "USERID=`id -u`" --tag webfuse .
  

@@ -5,7 +5,7 @@ Example of webfuse.
 
 ## Build
 
-    docker build --rm --buildarg "USERID=`id -u`" -tag webfuse .
+    docker build --rm --build-arg "USERID=`id -u`" --tag webfuse .
 
 # Run
 
