@@ -1,0 +1,8 @@
+dist: bionic
+
+services:
+    - docker
+
+script:
+    - docker build --rm --buildarg "USERID=`id -u`" -tag webfuse .
+ 
