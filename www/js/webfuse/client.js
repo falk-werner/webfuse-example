@@ -1,7 +1,7 @@
 import { BadState } from "./bad_state.js";
 
 export class Client {
-    static get _PROTOCOL() { return "fs"; }
+    static get _PROTOCOL() { return "webfuse-adapter-server"; }
 
     constructor(provider) {
         this._provider = { };

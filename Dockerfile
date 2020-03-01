@@ -92,12 +92,12 @@ RUN set -x \
 
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 
-ARG WEBFUSE_VERSION=master
+ARG WEBFUSE_VERSION=0.2.0
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
   && cd "$builddir" \
-  && wget "https://github.com/falk-werner/webfuse/archive/${WEBFUSE_VERSION}.tar.gz" -O webfuse.tar.gz \
+  && wget "https://github.com/falk-werner/webfuse/archive/v${WEBFUSE_VERSION}.tar.gz" -O webfuse.tar.gz \
   && tar -xf webfuse.tar.gz \
   && cd "webfuse-$WEBFUSE_VERSION" \
   && mkdir .build \
