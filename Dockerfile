@@ -106,12 +106,12 @@ RUN set -x \
   && make "$PARALLELMFLAGS" install \
   && rm -rf "$builddir"
 
-ARG WEBFUSED_VERSION=master
+ARG WEBFUSED_VERSION=0.1.0
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
   && cd "$builddir" \
-  && wget "https://github.com/falk-werner/webfused/archive/${WEBFUSED_VERSION}.tar.gz" -O webfused.tar.gz \
+  && wget "https://github.com/falk-werner/webfused/archive/v${WEBFUSED_VERSION}.tar.gz" -O webfused.tar.gz \
   && tar -xf webfused.tar.gz \
   && cd "webfused-$WEBFUSED_VERSION" \
   && mkdir .build \
