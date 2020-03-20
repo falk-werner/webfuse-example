@@ -15,7 +15,9 @@ RUN set -x \
         openssl \
         libssl-dev \
         uuid-dev \
-        wget
+        wget \
+        libconfig-dev \
+        libpam0g-dev
 
 COPY www /var/www
 
@@ -106,7 +108,7 @@ RUN set -x \
   && make "$PARALLELMFLAGS" install \
   && rm -rf "$builddir"
 
-ARG WEBFUSED_VERSION=0.1.0
+ARG WEBFUSED_VERSION=0.2.0
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
@@ -116,9 +118,15 @@ RUN set -x \
   && cd "webfused-$WEBFUSED_VERSION" \
   && mkdir .build \
   && cd .build \
-  && cmake ".." \
+  && cmake -DWITHOUT_TESTS=ON ".." \
   && make "$PARALLELMFLAGS" install \
   && rm -rf "$builddir"
+
+COPY webfused.conf /etc
+
+ARG USERID=1000
+RUN set -x \
+  && useradd -u "$USERID" -ms /bin/bash user
 
 EXPOSE 8080
 
