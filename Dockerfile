@@ -38,7 +38,7 @@ RUN set -x \
   && rm -rf "$builddir" \
   && apt purge -y $builddeps
 
-ARG FUSE_VERSION=3.9.0
+ARG FUSE_VERSION=3.9.1
 RUN set -x \
   && builddeps="udev gettext python3 python3-pip python3-setuptools python3-wheel" \
   && apt install --yes --no-install-recommends $builddeps \
