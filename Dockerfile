@@ -19,8 +19,6 @@ RUN set -x \
         libconfig-dev \
         libpam0g-dev
 
-COPY www /var/www
-
 ARG PARALLELMFLAGS=-j2
 
 ARG DUMB_INIT_VERSION=1.2.2
@@ -123,6 +121,26 @@ RUN set -x \
   && rm -rf "$builddir"
 
 COPY webfused.conf /etc
+
+ARG NPM_VERSION=">=6.14.0 <7.0.0"
+ARG NODEJS_VERSION=12
+RUN set -x \
+    && apt update \
+    && apt upgrade -y \
+    && apt install --yes --no-install-recommends \
+      nodejs \
+      npm \
+    && npm install -g npm@"${NPM_VERSION}" \
+    && npm install -g n \
+    && n "${NODEJS_VERSION}"
+
+COPY www /usr/local/src/www
+RUN set -x \
+    && cd /usr/local/src/www \
+    && npm update --no-save \
+    && npm run build \
+    && mkdir -p /var/www \
+    && cp -r ./dist/. /var/www/
 
 ARG USERID=1000
 RUN set -x \
