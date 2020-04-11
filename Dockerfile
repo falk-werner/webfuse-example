@@ -3,6 +3,7 @@ ARG CODENAME=bionic
 
 FROM ${REGISTRY_PREFIX}ubuntu:${CODENAME} as builder
 
+ARG DEBIAN_FRONTEND=noninteractive
 RUN set -x \
     && apt update \
     && apt upgrade -y \
@@ -17,7 +18,9 @@ RUN set -x \
         uuid-dev \
         wget \
         libconfig-dev \
-        libpam0g-dev
+        libpam0g-dev \
+        nginx \
+        fcgiwrap
 
 ARG PARALLELMFLAGS=-j2
 
@@ -138,8 +141,11 @@ RUN set -x \
     && cd /usr/local/src/www \
     && npm update --no-save \
     && npm run build \
+    && rm -rf /tmp/nmp-* \
+    && rm -rf /tmp/v8-* \
     && mkdir -p /var/www \
-    && cp -r ./dist/. /var/www/
+    && cp -r ./dist/. /var/www/ \
+    && chmod +x /var/www/cgi-bin/*
 
 ARG USERID=1000
 RUN set -x \

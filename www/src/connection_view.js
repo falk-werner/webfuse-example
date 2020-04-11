@@ -16,7 +16,7 @@ export class ConnectionView {
         
         this.urlTextbox = document.createElement("input");
         this.urlTextbox.type = "text";
-        this.urlTextbox.value = window.location.href.replace(/^http/, "ws");
+        this.urlTextbox.value = window.location.href.replace(/^http/, "ws") + 'webfuse-api';
         connectBox.appendChild(this.urlTextbox);
 
         this.connectButton = document.createElement("input");
@@ -25,8 +25,8 @@ export class ConnectionView {
         this.connectButton.addEventListener("click", () => { this._onConnectButtonClicked(); });
         connectBox.appendChild(this.connectButton);
 
-
         const authenticateBox = document.createElement("div");
+        authenticateBox.classList.add('hidden');
         this.element.appendChild(authenticateBox);
 
         const authLabel = document.createElement("span");

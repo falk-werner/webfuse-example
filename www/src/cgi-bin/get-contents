@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "Content-Type: text/plain"
+echo ""
+
+if [ -f /tmp/test/hello.txt ] ; then
+cat /tmp/test/hello.txt
+exit 0
+else
+echo "File Not Found"
+exit 1
+fi

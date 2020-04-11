@@ -18,7 +18,8 @@ module.exports = {
             template: "./src/index.html"
         }),
         new CopyWebpackPlugin([
-            { from: './src/style', to: 'style' }
+            { from: './src/style', to: 'style' },
+            { from: './src/cgi-bin', to: 'cgi-bin', copyPermissions: true }
         ])
     ],
     resolve: {
