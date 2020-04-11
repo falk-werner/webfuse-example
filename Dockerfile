@@ -137,6 +137,7 @@ RUN set -x \
 COPY www /usr/local/src/www
 RUN set -x \
     && cd /usr/local/src/www \
+    && npm update --no-save \
     && npm run build \
     && mkdir -p /var/www \
     && cp -r ./dist/. /var/www/
