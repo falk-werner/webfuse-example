@@ -11,16 +11,21 @@ Example of webfuse.
 
     docker run -p 8080:8080 --rm -it \
       --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined \
-      --user `id -u` \
-      webfuse bash
-    webfused -f /etc/webfused.conf
+      webfuse
 
-Open a webbrowser and visit http://localhost:8080 and follow the instruction on the screen.
+Open a webbrowser and visit http://localhost:8080 and establish a connection.
 
-Then open another terminal and connect to the container.
+Once connected, you can display the provided filesystem inside the container.
 
-    docker exec -it <name of container> bash
     cat /tmp/test/hello.txt
+
+### Logging
+
+To view log messages from webfuse, open another terminal an conntect to the container.  
+Log files can be found in /var/log/socklog/daemon directory.
+
+    docker exec -it <container> bash
+    tail -f /var/log/socklog/daemon/current
 
 ## Fellow Repositories
 

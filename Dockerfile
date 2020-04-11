@@ -21,22 +21,23 @@ RUN set -x \
 
 ARG PARALLELMFLAGS=-j2
 
-ARG DUMB_INIT_VERSION=1.2.2
+ARG S6OVERLAY_VERSION=1.22.1.0
 RUN set -x \
-  && builddeps="xxd" \
-  && apt install --yes --no-install-recommends $builddeps \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
   && cd "$builddir" \
-  && wget "https://github.com/Yelp/dumb-init/archive/v${DUMB_INIT_VERSION}.tar.gz" -O dumb_init.tar.gz \
-  && tar -xf dumb_init.tar.gz \
-  && cd "dumb-init-$DUMB_INIT_VERSION" \
-  && make "$PARALLELMFLAGS" \
-  && chmod +x dumb-init \
-  && mv dumb-init /usr/local/bin/dumb-init \
-  && dumb-init --version \
-  && rm -rf "$builddir" \
-  && apt purge -y $builddeps
+  && wget "https://github.com/just-containers/s6-overlay/releases/download/v${S6OVERLAY_VERSION}/s6-overlay-amd64.tar.gz" -O s6overlay.tar.gz \
+  && tar -xf s6overlay.tar.gz -C / \
+  && rm -rf "$builddir"
+
+ARG SOCKLOG_VERSION=3.1.0-2
+RUN set -x \
+  && builddir="/tmp/out" \
+  && mkdir -p "$builddir" \
+  && cd "$builddir" \
+  && wget "https://github.com/just-containers/socklog-overlay/releases/download/v${SOCKLOG_VERSION}/socklog-overlay-amd64.tar.gz" -O socklog.tar.gz \
+  && tar -xf socklog.tar.gz -C / \
+  && rm -rf "$builddir"
 
 ARG FUSE_VERSION=3.9.1
 RUN set -x \
@@ -120,8 +121,6 @@ RUN set -x \
   && make "$PARALLELMFLAGS" install \
   && rm -rf "$builddir"
 
-COPY webfused.conf /etc
-
 ARG NPM_VERSION=">=6.14.0 <7.0.0"
 ARG NODEJS_VERSION=12
 RUN set -x \
@@ -146,6 +145,9 @@ ARG USERID=1000
 RUN set -x \
   && useradd -u "$USERID" -ms /bin/bash user
 
+COPY etc /etc
+
 EXPOSE 8080
 
-ENTRYPOINT ["dumb-init", "--"]
+ENTRYPOINT ["/init"]
+CMD ["/usr/bin/execlineb", "-P", "-c", "emptyenv export HOME /home/user s6-setuidgid user /bin/bash"]
