@@ -141,7 +141,7 @@ RUN set -x \
     && cd /usr/local/src/www \
     && npm update --no-save \
     && npm run build \
-    && rm -rf /tmp/nmp-* \
+    && rm -rf /tmp/npm-* \
     && rm -rf /tmp/v8-* \
     && mkdir -p /var/www \
     && cp -r ./dist/. /var/www/ \
