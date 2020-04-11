@@ -1,0 +1,4 @@
+#!/usr/bin/execlineb -P
+
+s6-setuidgid user
+/usr/sbin/fcgiwrap -s unix:/tmp/fcgi.sock

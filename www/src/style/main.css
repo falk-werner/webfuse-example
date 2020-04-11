@@ -15,7 +15,7 @@ html, body {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 25px;
-    color: white;
+    color: #c0c0c0;
 }
 
 .window .title {
@@ -45,3 +45,11 @@ html, body {
     text-align: center;
 }
 
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+
+#contents, #directory {
+    white-space: pre;
+}

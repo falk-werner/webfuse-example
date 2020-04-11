@@ -13,9 +13,9 @@ Example of webfuse.
       --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined \
       webfuse
 
-Open a webbrowser and visit http://localhost:8080 and establish a connection.
+Open a webbrowser, visit http://localhost:8080 and follow the instruction on the screen.
 
-Once connected, you can display the provided filesystem inside the container.
+Once connected, you can also display the provided filesystem inside the container.
 
     cat /tmp/test/hello.txt
 
