@@ -20,7 +20,15 @@ RUN set -x \
         libconfig-dev \
         libpam0g-dev \
         nginx \
-        fcgiwrap
+        fcgiwrap \
+        udev \
+        gettext \
+        python3 \
+        python3-pip \
+        python3-setuptools \
+        python3-wheel \
+        git \
+    && pip3 install --system meson
 
 ARG PARALLELMFLAGS=-j2
 
@@ -44,9 +52,6 @@ RUN set -x \
 
 ARG FUSE_VERSION=3.9.1
 RUN set -x \
-  && builddeps="udev gettext python3 python3-pip python3-setuptools python3-wheel" \
-  && apt install --yes --no-install-recommends $builddeps \
-  && pip3 install --system meson \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
   && cd "$builddir" \
@@ -58,11 +63,9 @@ RUN set -x \
   && meson .. \
   && ninja \
   && ninja install \
-  && pip3 uninstall -y meson \
-  && rm -rf "$builddir" \
-  && apt purge -y $builddeps
+  && rm -rf "$builddir"
 
-ARG WEBSOCKETS_VERSION=3.2.0
+ARG WEBSOCKETS_VERSION=4.0.15
 RUN set -x \
   && apt install --yes --no-install-recommends \
        ca-certificates \
@@ -96,21 +99,7 @@ RUN set -x \
 
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 
-ARG WEBFUSE_VERSION=0.2.0
-RUN set -x \
-  && builddir="/tmp/out" \
-  && mkdir -p "$builddir" \
-  && cd "$builddir" \
-  && wget "https://github.com/falk-werner/webfuse/archive/v${WEBFUSE_VERSION}.tar.gz" -O webfuse.tar.gz \
-  && tar -xf webfuse.tar.gz \
-  && cd "webfuse-$WEBFUSE_VERSION" \
-  && mkdir .build \
-  && cd .build \
-  && cmake -DWITHOUT_TESTS=ON -DWITHOUT_EXAMPLE=ON ".." \
-  && make "$PARALLELMFLAGS" install \
-  && rm -rf "$builddir"
-
-ARG WEBFUSED_VERSION=0.2.0
+ARG WEBFUSED_VERSION=0.3.0
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
@@ -118,10 +107,9 @@ RUN set -x \
   && wget "https://github.com/falk-werner/webfused/archive/v${WEBFUSED_VERSION}.tar.gz" -O webfused.tar.gz \
   && tar -xf webfused.tar.gz \
   && cd "webfused-$WEBFUSED_VERSION" \
-  && mkdir .build \
-  && cd .build \
-  && cmake -DWITHOUT_TESTS=ON ".." \
-  && make "$PARALLELMFLAGS" install \
+  && meson -Dwithout_tests=true build \
+  && cd build \
+  && ninja install \
   && rm -rf "$builddir"
 
 ARG NPM_VERSION=">=6.14.0 <7.0.0"
