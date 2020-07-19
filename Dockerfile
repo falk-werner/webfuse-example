@@ -100,7 +100,7 @@ RUN set -x \
 
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 
-ARG WEBFUSE_VERSION=0.4.0
+ARG WEBFUSE_VERSION=0.5.0
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
@@ -114,7 +114,7 @@ RUN set -x \
   && ninja install \
   && rm -rf "$builddir"
 
-ARG WEBFUSED_VERSION=0.4.1
+ARG WEBFUSED_VERSION=0.5.0
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
