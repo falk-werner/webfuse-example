@@ -30,7 +30,7 @@ RUN set -x \
 
 ARG PARALLELMFLAGS=-j2
 
-ARG S6OVERLAY_VERSION=1.22.1.0
+ARG S6OVERLAY_VERSION=2.1.0.0
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
@@ -48,7 +48,7 @@ RUN set -x \
   && tar -xf socklog.tar.gz -C / \
   && rm -rf "$builddir"
 
-ARG FUSE_VERSION=3.9.2
+ARG FUSE_VERSION=3.10.0
 RUN set -x \
   && builddeps="udev gettext " \
   && apt install --yes --no-install-recommends $builddeps \
@@ -58,15 +58,12 @@ RUN set -x \
   && wget "https://github.com/libfuse/libfuse/archive/fuse-${FUSE_VERSION}.tar.gz" -O libfuse.tar.gz \
   && tar -xf libfuse.tar.gz \
   && cd "libfuse-fuse-$FUSE_VERSION" \
-  && mkdir .build \
-  && cd .build \
-  && meson .. \
-  && ninja \
-  && ninja install \
+  && meson -Dexamples=false .build \
+  && meson install -C .build \
   && rm -rf "$builddir" \
   && apt purge -y $builddeps
 
-ARG WEBSOCKETS_VERSION=4.0.13
+ARG WEBSOCKETS_VERSION=4.1.3
 RUN set -x \
   && apt install --yes --no-install-recommends \
        ca-certificates \
@@ -84,7 +81,7 @@ RUN set -x \
   && make "$PARALLELMFLAGS" install \
   && rm -rf "$builddir"
 
-ARG JANSSON_VERSION=2.12
+ARG JANSSON_VERSION=2.13.1
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
@@ -100,7 +97,7 @@ RUN set -x \
 
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 
-ARG WEBFUSE_VERSION=0.5.0
+ARG WEBFUSE_VERSION=0.5.1
 RUN set -x \
   && builddir="/tmp/out" \
   && mkdir -p "$builddir" \
